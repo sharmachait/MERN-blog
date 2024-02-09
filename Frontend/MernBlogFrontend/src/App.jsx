@@ -1,17 +1,19 @@
 import './App.css'
-
+import { Header } from './Header'
+import { Layout } from './Layout';
+import { Post } from './post'
+import { Route, Routes } from 'react-router-dom';
+import { IndexPage } from './pages/IndexPage';
+import { LoginPage } from './pages/LoginPage';
 function App() {
 
   return (
-    <main>
-      <header>
-        <a href="" className="logo">Roger's Log's</a>
-        <nav>
-          <a href="" className="login">Login</a>
-          <a href="" className="register">Register</a>
-        </nav>
-      </header>
-    </main>
+    <Routes>
+      <Route path='/' element={<Layout />}>
+        <Route index element={<IndexPage />} />
+        <Route path='/login' element={<LoginPage />} />
+      </Route>
+    </Routes>
   )
 }
 

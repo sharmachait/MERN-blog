@@ -1,13 +1,15 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { Navigate } from 'react-router-dom';
+import { UserContext } from '../UserContext';
 
 export const LoginPage = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [redirect, setRedirect] = useState(false);
+    const { setUserInfo } = useContext(UserContext)
     async function login(e) {
         e.preventDefault();
-        console.log(JSON.stringify({ username, password }));
+
         let response = await fetch("http://localhost:3000/login", {
             method: "POST",
             headers: {
@@ -19,6 +21,10 @@ export const LoginPage = () => {
             credentials: 'include',
         });
         if (response.ok) {
+            let userInfo = await response.json();
+            console.log("userInfo");
+            console.log(userInfo);
+            setUserInfo(userInfo);
             setRedirect(true);
         } else {
             alert('wrong credentials');

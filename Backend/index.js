@@ -7,7 +7,10 @@ const salt = bcrypt.genSaltSync(10);
 const jwt = require("jsonwebtoken");
 const app = express();
 const cookieParser = require('cookie-parser');
-
+const multer = require('multer');
+const uploadMiddleware = multer({ dest: 'uploads/' });
+const fs = require('fs/promises');
+const PostModel = require('./models/Post');
 let secret = "fjhgjdi83948479hkrshkshgh948y";
 
 app.use(express.json());
@@ -62,6 +65,20 @@ app.get('/profile', async (req, res) => {
 
 app.post('/logout', (req, res) => {
     res.status(200).cookie('token', '').json('logged out');
+});
+
+app.post('/post', uploadMiddleware.single('file'), async (req, res) => {
+
+    const { originalname, path } = req.file;
+    const parts = originalname.split('.');
+    const ext = parts[parts.length - 1];
+    let newPath = path + '.' + ext;
+    await fs.rename(path, newPath);
+
+    const { title, summary, content } = req.body;
+    let post = await PostModel.create({ title, summary, content, cover: newPath });
+
+    res.json(post);
 });
 
 app.listen(3000, () => { console.log('now listening on port 3000'); });

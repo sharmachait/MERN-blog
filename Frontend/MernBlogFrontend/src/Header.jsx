@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { UserContext } from './UserContext';
 
 export const Header = () => {
-    const { userInfo, setUserInfo } = useContext(UserContext)
+    const { userInfo, setUserInfo } = useContext(UserContext);
     useEffect(() => {
         fetch("http://localhost:3000/profile", {
             method: "GET",

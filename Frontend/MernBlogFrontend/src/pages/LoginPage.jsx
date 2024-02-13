@@ -6,7 +6,7 @@ export const LoginPage = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [redirect, setRedirect] = useState(false);
-    const { setUserInfo } = useContext(UserContext)
+    const { setUserInfo } = useContext(UserContext);
     async function login(e) {
         e.preventDefault();
 
@@ -22,8 +22,6 @@ export const LoginPage = () => {
         });
         if (response.ok) {
             let userInfo = await response.json();
-            console.log("userInfo");
-            console.log(userInfo);
             setUserInfo(userInfo);
             setRedirect(true);
         } else {

@@ -8,6 +8,7 @@ import { LoginPage } from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import { useEffect } from 'react';
 import { UserContextProvider } from './UserContext';
+import CreatePage from './pages/CreatePage';
 function App() {
 
   return (
@@ -17,6 +18,7 @@ function App() {
           <Route index element={<IndexPage />} />
           <Route path='/login' element={<LoginPage />} />
           <Route path='/register' element={<RegisterPage />} />
+          <Route path='/create' element={<CreatePage />} />
         </Route>
       </Routes>
     </UserContextProvider>

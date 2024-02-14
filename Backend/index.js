@@ -16,6 +16,8 @@ let secret = "fjhgjdi83948479hkrshkshgh948y";
 app.use(express.json());
 app.use(cors({ credentials: true, origin: 'http://localhost:5173' }));
 app.use(cookieParser())
+app.use('/uploads', express.static(__dirname + '/uploads'));
+
 mongoose.connect('mongodb+srv://chait8126:29vansthaliA@cluster0.vsimsnr.mongodb.net/');
 
 app.post('/register', async (req, res) => {
@@ -68,17 +70,39 @@ app.post('/logout', (req, res) => {
 });
 
 app.post('/post', uploadMiddleware.single('file'), async (req, res) => {
+    try {
+        const { originalname, path } = req.file;
+        const parts = originalname.split('.');
+        const ext = parts[parts.length - 1];
+        let newPath = path + '.' + ext;
+        await fs.rename(path, newPath);
 
-    const { originalname, path } = req.file;
-    const parts = originalname.split('.');
-    const ext = parts[parts.length - 1];
-    let newPath = path + '.' + ext;
-    await fs.rename(path, newPath);
+        const { token } = req.cookies;
+        let decodedJson = await jwt.verify(token, secret);
 
-    const { title, summary, content } = req.body;
-    let post = await PostModel.create({ title, summary, content, cover: newPath });
+        const { title, summary, content } = req.body;
+        let post = await PostModel.create({
+            title,
+            summary,
+            content,
+            cover: newPath,
+            author: decodedJson.id
+        });
 
-    res.json(post);
+        res.json({ msg: "posted" });
+    } catch (e) {
+        res.send(e);
+    }
+
+});
+
+app.get('/post', async (req, res) => {
+    let posts = await PostModel.find().populate('author', ['username']);
+    posts.sort((a, b) => {
+        return (new Date(b.createdAt)) - (new Date(a.createdAt))
+    });
+    posts = posts.slice(0, 20);
+    res.json(posts);
 });
 
 app.listen(3000, () => { console.log('now listening on port 3000'); });

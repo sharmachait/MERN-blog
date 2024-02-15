@@ -1,22 +1,7 @@
 import React, { useState } from 'react';
 import { Navigate } from 'react-router-dom';
-import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
-const modules = {
-    toolbar: [
-        [{ 'header': [1, 2, false] }],
-        ['bold', 'italic', 'underline', 'strike', 'blockquote'],
-        [{ 'list': 'ordered' }, { 'list': 'bullet' }, { 'indent': '-1' }, { 'indent': '+1' }],
-        ['link', 'image'],
-        ['clean']
-    ],
-};
-const formats = [
-    'header',
-    'bold', 'italic', 'underline', 'strike', 'blockquote',
-    'list', 'bullet', 'indent',
-    'link', 'image'
-];
+import Editor from '../Editor';
+
 const CreatePage = () => {
     const [title, setTitle] = useState('');
     const [summary, setSummary] = useState('');
@@ -60,10 +45,8 @@ const CreatePage = () => {
                 value={summary} placeholder='Summary' />
             <input type='file'
                 onChange={(e) => setFiles(e.target.files)} />
-            <ReactQuill value={content}
-                onChange={(value) => { setContent(value) }}
-                modules={modules}
-                formats={formats} />
+            <Editor content={content} onChange={setContent}></Editor>
+
             <button style={{ marginTop: '6px' }}>Create Post</button>
         </form>
     );

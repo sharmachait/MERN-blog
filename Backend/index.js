@@ -18,7 +18,7 @@ app.use(cors({ credentials: true, origin: 'http://localhost:5173' }));
 app.use(cookieParser())
 app.use('/uploads', express.static(__dirname + '/uploads'));
 
-mongoose.connect('mongodb+srv://chait8126:29vansthaliA@cluster0.vsimsnr.mongodb.net/');
+mongoose.connect('mongodb+srv://chait8126:<password>@cluster0.vsimsnr.mongodb.net/');
 
 app.post('/register', async (req, res) => {
     try {
@@ -103,6 +103,17 @@ app.get('/post', async (req, res) => {
     });
     posts = posts.slice(0, 20);
     res.json(posts);
+});
+
+app.get('/post/:postid', async (req, res) => {
+    let postid = req.params.postid;
+    let post = await PostModel.findById(postid).populate('author', ['username']);
+    res.json({ post });
+});
+
+app.put('/updatepost', uploadMiddleware.single('file'), async (req, res) => {
+    console.log(req.file);
+    res.json(req.file);
 });
 
 app.listen(3000, () => { console.log('now listening on port 3000'); });

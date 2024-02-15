@@ -19,10 +19,13 @@ export const IndexPage = () => {
     }, []);
 
     return (
-        <div>
-            {posts.length > 0 && posts.map((post, index) => (
-                <Post key={index} {...post}></Post>
-            ))}
-        </div>
+        <div >
+
+            {
+                posts.length > 0 && posts.map((post, index) => (
+                    <Post key={index} {...post}></Post>
+                ))
+            }
+        </div >
     )
 }

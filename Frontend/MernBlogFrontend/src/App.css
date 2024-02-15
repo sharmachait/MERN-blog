@@ -9,7 +9,7 @@ img {
 }
 main {
   padding: 10px;
-  max-width: 700px;
+  max-width: 960px;
   margin: 0 auto;
 }
 header {
@@ -38,13 +38,26 @@ header nav {
 
 div.post {
   display: grid;
-  grid-template-columns: 0.9fr 1.1fr;
+  grid-template-columns: 1fr;
+  /* grid-template-columns: 0.9fr 1.1fr; */
   gap: 20px;
   margin-bottom: 30px;
 }
+
+@media screen and (min-width: 500px) {
+  div.post {
+    grid-template-columns: 0.9fr 1.1fr;
+  }
+}
+
 div.post div.content h2 {
   margin: 0;
+
   font-size: 1.8rem;
+}
+div.post div.text a {
+  text-decoration: none;
+  color: inherit;
 }
 
 div.post p.info {
@@ -92,4 +105,43 @@ button {
 form.login h1,
 form.register h1 {
   text-align: center;
+}
+
+div.post-page div.image {
+  display: flex;
+  max-height: 200px;
+  overflow: hidden;
+}
+
+div.post-page div.image img {
+  object-fit: cover;
+  object-position: center center;
+}
+
+div.post-page a {
+  color: #333;
+  text-decoration: underline;
+}
+
+div.post-page h1 {
+  text-align: center;
+}
+
+div.post-page a.edit-btn {
+  background-color: #727272;
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  border-radius: 5px;
+  color: aliceblue;
+  padding: 15px;
+  gap: 5px;
+}
+div.edit-row {
+  margin-bottom: 20px;
+  text-align: end;
+}
+
+a svg {
+  height: 18px;
 }

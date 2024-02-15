@@ -1,6 +1,7 @@
 import React from 'react'
+import { Link } from 'react-router-dom';
 
-export const Post = ({ title, summary, cover, content, createdAt, author }) => {
+export const Post = ({ _id, title, summary, cover, content, createdAt, author }) => {
     const parsedDate = new Date(createdAt);
 
     // Format the date according to the Indian locale
@@ -17,12 +18,16 @@ export const Post = ({ title, summary, cover, content, createdAt, author }) => {
     return (
         <div className="post">
             <div className="img">
-                <img src={"http://localhost:3000/" + cover}></img>
+                <Link to={`/post/${_id}`}>
+                    <img src={"http://localhost:3000/" + cover}></img>
+                </Link>
             </div>
             <div className="content">
-                <h2>{title}</h2>
+                <Link to={`/post/${_id}`}>
+                    <h2>{title}</h2>
+                </Link>
                 <p className="info">
-                    <a href="" className="author">{author.username}</a>
+                    <a className="author">{author.username}</a>
                     <time>{formattedDate}</time>
                 </p>
                 <p className='summary'>{summary}</p>
